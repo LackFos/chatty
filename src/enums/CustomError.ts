@@ -1,0 +1,6 @@
+enum CustomError {
+  DATABASE_SETUP_ERROR = "DATABASE_SETUP_ERROR",
+  WEB_SOCKET_SERVER_SETUP_ERROR = "WEB_SOCKET_SERVER_SETUP_ERROR",
+}
+
+export default CustomError;

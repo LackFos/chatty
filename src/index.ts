@@ -1,11 +1,16 @@
-import { WebSocketServer } from "ws";
+import { configDotenv } from "dotenv";
+import connectToDatabase from "./database";
+import startWebSocketServer from "./webSocketServer";
 
-const wss = new WebSocketServer({
-  port: 8080,
-});
+configDotenv();
 
-wss.on("connection", function (ws) {
-  ws.on("message", function (data) {
-    console.log("received: %s", data);
-  });
-});
+const startApp = async () => {
+  try {
+    await connectToDatabase();
+    startWebSocketServer();
+  } catch (error) {
+    console.log(`💥 ${error}`);
+  }
+};
+
+startApp();
