@@ -19,6 +19,8 @@
   },
   "dependencies": {
     "@tsconfig/node23": "^23.0.1",
+    "dotenv": "^17.2.1",
+    "mongoose": "^8.17.0",
     "ws": "^8.18.1"
   }
 }
