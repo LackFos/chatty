@@ -1,6 +1,6 @@
 import { configDotenv } from "dotenv";
-import connectToDatabase from "./database";
-import startWebSocketServer from "./webSocketServer";
+import connectToDatabase from "@/database";
+import startWebSocketServer from "@/web-socket-server";
 
 configDotenv();
 
