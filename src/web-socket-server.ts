@@ -1,6 +1,7 @@
 import { WebSocketServer } from "ws";
 import CustomError from "@/enums/CustomError";
 import { ChatModel } from "./models/chat-model";
+import ChatSchema from "./schemas/chat-schema";
 
 function startWebSocketServer() {
   try {
@@ -11,13 +12,10 @@ function startWebSocketServer() {
         try {
           const request = JSON.parse(data.toString());
 
-          // Check if the request has the required fields
-          if (!request.text) {
-            throw new Error("⚠️ Text value is required");
-          }
+          const validated = ChatSchema.parse(request);
 
           // Add the message to the database
-          ChatModel.create({ text: request.text });
+          ChatModel.create(validated);
         } catch (error) {
           console.log(`💥 ${error}`);
         }
