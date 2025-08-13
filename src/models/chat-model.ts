@@ -1,11 +1,13 @@
 import mongoose, { Schema } from "mongoose";
 
-interface IChat {
+interface ChatInterface {
   text: string;
 }
 
-const schema = new Schema<IChat>({
+const schema = new Schema<ChatInterface>({
   text: { type: String, required: true },
 });
 
-export const ChatModel = mongoose.model<IChat>("Chat", schema);
+const ChatModel = mongoose.model<ChatInterface>("Chat", schema);
+
+export default ChatModel;
