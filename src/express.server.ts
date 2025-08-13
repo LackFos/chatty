@@ -5,7 +5,7 @@ import { createUserDto, userResponseDto } from "@/dtos/user.dto";
 import UserModel from "@/models/user.model";
 import ResponseHelper from "@/helpers/response.helper";
 
-async function startRestApiServer() {
+const startRestApiServer = async () => {
   try {
     const server = express();
     const port = process.env.REST_API_SERVER_PORT;
@@ -38,6 +38,6 @@ async function startRestApiServer() {
   } catch (error) {
     throw Error(`${AppSetupError.REST_API_SERVER_SETUP_ERROR}: ${error}`);
   }
-}
+};
 
 export default startRestApiServer;

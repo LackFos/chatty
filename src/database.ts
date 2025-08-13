@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import AppSetupError from "@/enums/app.setup.error";
 
-async function connectToDatabase(): Promise<void> {
+const connectToDatabase = async (): Promise<void> => {
   try {
     console.log("🚀 Connecting to MongoDB...");
 
@@ -28,6 +28,6 @@ async function connectToDatabase(): Promise<void> {
   } catch (error) {
     throw Error(`${AppSetupError.DATABASE_SETUP_ERROR}: ${error}`);
   }
-}
+};
 
 export default connectToDatabase;

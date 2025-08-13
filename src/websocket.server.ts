@@ -3,7 +3,7 @@ import ChatSchema from "@/dtos/chat.dto";
 import AppSetupError from "@/enums/app.setup.error";
 import ChatModel from "@/models/chat.model";
 
-function startWebSocketServer() {
+const startWebSocketServer = () => {
   try {
     const wss = new WebSocketServer({ port: 8080 });
 
@@ -26,6 +26,6 @@ function startWebSocketServer() {
   } catch (error) {
     throw Error(`${AppSetupError.WEB_SOCKET_SERVER_SETUP_ERROR}: ${error}`);
   }
-}
+};
 
 export default startWebSocketServer;
