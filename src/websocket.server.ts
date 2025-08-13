@@ -1,7 +1,7 @@
 import { WebSocketServer } from "ws";
-import CustomError from "@/enums/CustomError";
-import { ChatModel } from "./models/chat-model";
-import ChatSchema from "./schemas/chat-schema";
+import ChatSchema from "@/dto/chat.dto";
+import AppSetupError from "@/enums/app.setup.error";
+import ChatModel from "@/models/chat.model";
 
 function startWebSocketServer() {
   try {
@@ -24,7 +24,7 @@ function startWebSocketServer() {
 
     console.log("⚡️ WebSocket server started on port 8080");
   } catch (error) {
-    throw Error(`${CustomError.WEB_SOCKET_SERVER_SETUP_ERROR}: ${error}`);
+    throw Error(`${AppSetupError.WEB_SOCKET_SERVER_SETUP_ERROR}: ${error}`);
   }
 }
 

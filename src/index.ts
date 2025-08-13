@@ -1,7 +1,7 @@
 import { configDotenv } from "dotenv";
 import connectToDatabase from "@/database";
-import startWebSocketServer from "@/web-socket-server";
-import startRestApiServer from "./rest-api-server";
+import startRestApiServer from "@/express.server";
+import startWebSocketServer from "@/websocket.server";
 
 configDotenv();
 

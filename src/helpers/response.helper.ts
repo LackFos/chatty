@@ -2,44 +2,28 @@ import { Response } from "express";
 import StatusCode from "@/enums/StatusCode";
 
 class ResponseHelper {
-  static success(
-    response: Response,
-    message: string,
-    data: Record<string, any>
-  ) {
+  static success(response: Response, message: string, data: Record<string, any>) {
     return this.successResponse(StatusCode.Ok)(response, message, data);
   }
 
-  static created(
-    response: Response,
-    message: string,
-    data: Record<string, any>
-  ) {
+  static created(response: Response, message: string, data: Record<string, any>) {
     return this.successResponse(StatusCode.Created)(response, message, data);
   }
 
-  static unprocessableEntity(
-    response: Response,
-    message: string,
-    errors?: Record<string, any>
-  ) {
+  static unprocessableEntity(response: Response, message: string, errors?: Record<string, any>) {
     return this.failedResponse(StatusCode.Unprocessable_Entity)(response, message, errors);
   }
 
   private static successResponse(code: number) {
-    return (
-      response: Response,
-      message: string,
-      data: Record<string, any>
-    ) => {
-      const body = {success: true, message, data};
+    return (response: Response, message: string, data: Record<string, any>) => {
+      const body = { success: true, message, data };
       response.status(code).json(body);
     };
   }
 
   private static failedResponse(code: number) {
     return (response: Response, message: string, errors?: Record<string, any>) => {
-      const body = { success: false, message, errors};
+      const body = { success: false, message, errors };
       response.status(code).json(body);
     };
   }

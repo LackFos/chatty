@@ -1,9 +1,9 @@
 import bcrypt from "bcrypt";
 import express from "express";
-import CustomError from "@/enums/CustomError";
+import AppSetupError from "@/enums/app.setup.error";
 import { createUserDto, userResponseDto } from "@/dto/user.dto";
-import UserModel from "@/models/user-model";
-import ResponseHelper from "@/helpers/ResponseHelper";
+import UserModel from "@/models/user.model";
+import ResponseHelper from "@/helpers/response.helper";
 
 async function startRestApiServer() {
   try {
@@ -36,7 +36,7 @@ async function startRestApiServer() {
       console.log(`⚡️ Rest API Server listening on port ${port}`);
     });
   } catch (error) {
-    throw Error(`${CustomError.REST_API_SERVER_SETUP_ERROR}: ${error}`);
+    throw Error(`${AppSetupError.REST_API_SERVER_SETUP_ERROR}: ${error}`);
   }
 }
 

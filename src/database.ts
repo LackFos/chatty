@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import CustomError from "@/enums/CustomError";
+import AppSetupError from "@/enums/app.setup.error";
 
 async function connectToDatabase(): Promise<void> {
   try {
@@ -26,7 +26,7 @@ async function connectToDatabase(): Promise<void> {
 
     console.log("⚡️ Connected to MongoDB");
   } catch (error) {
-    throw Error(`${CustomError.DATABASE_SETUP_ERROR}: ${error}`);
+    throw Error(`${AppSetupError.DATABASE_SETUP_ERROR}: ${error}`);
   }
 }
 
