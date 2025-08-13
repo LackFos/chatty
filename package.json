@@ -10,11 +10,12 @@
   "license": "ISC",
   "description": "An App for auction",
   "devDependencies": {
+    "@tsconfig/node23": "^23.0.1",
     "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^22.14.0",
     "@types/ws": "^8.18.1",
-    "@tsconfig/node23": "^23.0.1",
     "concurrently": "^9.1.2",
     "nodemon": "^3.1.9",
     "tsc-alias": "^1.8.13",
@@ -24,6 +25,7 @@
     "bcrypt": "^6.0.0",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.17.0",
     "ws": "^8.18.1",
     "zod": "^4.0.17"

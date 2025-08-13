@@ -1,6 +1,7 @@
 enum StatusCode {
   Ok = 200,
   Created = 201,
+  Unauthorized = 401,
   Unprocessable_Entity = 422,
 }
 

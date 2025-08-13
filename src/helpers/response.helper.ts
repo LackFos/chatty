@@ -18,12 +18,26 @@ class ResponseHelper {
     return this.successResponse(StatusCode.Created)(response, message, data);
   }
 
+  static unauthorized(
+    response: Response,
+    message: string,
+  ) {
+      return this.failedResponse(StatusCode.Unauthorized)(response, message);
+  }
+
   static unprocessableEntity(
     response: Response,
     message: string,
     errors?: Record<string, any>
   ) {
     return this.failedResponse(StatusCode.Unprocessable_Entity)(response, message, errors);
+  }
+
+  static internalServerError(
+    response: Response,
+    message: string,
+  ) {
+    return this.failedResponse(StatusCode.Unprocessable_Entity)(response, message);
   }
 
   private static successResponse(code: number) {

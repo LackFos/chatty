@@ -1,4 +1,4 @@
-import { createUser } from "./controllers/user.controller";
+import { createUser, login } from "./controllers/user.controller";
 import express from "express";
 import AppSetupError from "@/enums/app.setup.error";
 
@@ -10,6 +10,7 @@ const startRestApiServer = async () => {
     server.use(express.json());
 
     server.post("/register", createUser);
+    server.post("/login", login);
 
     server.listen(port, () => {
       console.log(`⚡️ Rest API Server listening on port ${port}`);
