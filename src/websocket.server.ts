@@ -1,5 +1,5 @@
 import { WebSocketServer } from "ws";
-import ChatSchema from "@/dto/chat.dto";
+import ChatSchema from "@/dtos/chat.dto";
 import AppSetupError from "@/enums/app.setup.error";
 import ChatModel from "@/models/chat.model";
 

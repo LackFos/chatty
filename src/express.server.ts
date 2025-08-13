@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import express from "express";
 import AppSetupError from "@/enums/app.setup.error";
-import { createUserDto, userResponseDto } from "@/dto/user.dto";
+import { createUserDto, userResponseDto } from "@/dtos/user.dto";
 import UserModel from "@/models/user.model";
 import ResponseHelper from "@/helpers/response.helper";
 
