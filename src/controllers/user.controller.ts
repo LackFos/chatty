@@ -5,11 +5,11 @@ import { userCreateRequest, userCreateResponse, userLoginRequest, userLoginRespo
 import UserModel from "@/models/user.model";
 import ResponseHelper, { InternalServerError, UnauthorizedError } from "@/helpers/response.helper";
 
-export const createUser = async (req: Request, res: Response, next: NextFunction) => {
+export const createUser = async (request: Request, response: Response, next: NextFunction) => {
   try {
     const saltRounds = 10;
 
-    const credentials = userCreateRequest.parse(req.body);
+    const credentials = userCreateRequest.parse(request.body);
 
     // Check is the email already used
     const userExists = await UserModel.findOne({ email: credentials.email });
@@ -23,13 +23,13 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 
     const createdUser = await UserModel.create({ email: credentials.email, password: passwordHash });
 
-    return ResponseHelper.success(res, "User created", userCreateResponse.parse(createdUser));
+    return ResponseHelper.success(response, "User created", userCreateResponse.parse(createdUser));
   } catch (error) {
     next(error);
   }
 };
 
-export const login = async (req: Request, res: Response, next: NextFunction) => {
+export const login = async (request: Request, response: Response, next: NextFunction) => {
   try {
     const jwtSecret = process.env.JWT_SECRET;
 
@@ -37,7 +37,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       return next(new InternalServerError());
     }
 
-    const credentials = userLoginRequest.parse(req.body);
+    const credentials = userLoginRequest.parse(request.body);
 
     // Get matching user by email
     const matchedUser = await UserModel.findOne({ email: credentials.email });
@@ -54,7 +54,11 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
     const token: string = jwt.sign({ id: matchedUser.id }, jwtSecret);
 
-    return ResponseHelper.success(res, "Login successful", userLoginResponse.parse({ ...matchedUser.toJSON(), token }));
+    return ResponseHelper.success(
+      response,
+      "Login successful",
+      userLoginResponse.parse({ ...matchedUser.toJSON(), token })
+    );
   } catch (error) {
     next(error);
   }
