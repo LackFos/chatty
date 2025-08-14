@@ -1,9 +1,9 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
-import UserModel from "@/models/user.model";
 import { userCreateRequest, userCreateResponse, userLoginRequest, userLoginResponse } from "@/dtos/user.dto";
-import ResponseHelper from "@/helpers/response.helper";
+import UserModel from "@/models/user.model";
+import ResponseHelper, { InternalServerError, UnauthorizedError } from "@/helpers/response.helper";
 
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -15,7 +15,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     const userExists = await UserModel.findOne({ email: credentials.email });
 
     if (userExists) {
-      return ResponseHelper.unprocessableEntity(res, "Email already used");
+      return next(new UnauthorizedError("Email already used"));
     }
 
     // Create new user with hashed password
@@ -34,7 +34,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     const jwtSecret = process.env.JWT_SECRET;
 
     if (!jwtSecret) {
-      return ResponseHelper.internalServerError(res, "JWT secret is not found");
+      return next(new InternalServerError());
     }
 
     const credentials = userLoginRequest.parse(req.body);
@@ -43,13 +43,13 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     const matchedUser = await UserModel.findOne({ email: credentials.email });
 
     if (!matchedUser) {
-      return ResponseHelper.unauthorized(res, "Invalid login credentials");
+      return next(new UnauthorizedError("Invalid login credentials"));
     }
 
     const isPasswordMatched = await bcrypt.compare(credentials.password, matchedUser.password);
 
     if (!isPasswordMatched) {
-      return ResponseHelper.unauthorized(res, "Invalid login credentials");
+      return next(new UnauthorizedError("Invalid login credentials"));
     }
 
     const token: string = jwt.sign({ id: matchedUser.id }, jwtSecret);

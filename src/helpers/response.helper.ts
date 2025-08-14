@@ -1,6 +1,37 @@
 import { Response } from "express";
 import StatusCode from "@/enums/http.status.code";
 
+export class ApiErrorResponse {
+  code: number;  
+  message: string;
+  errors?: Record<string, any> ;   
+  
+  constructor(code: number, message: string, errors?: Record<string, any>) {
+    this.code = code
+    this.message = message
+    this.errors = errors
+  }
+}
+
+export class UnauthorizedError extends ApiErrorResponse {
+  constructor(message: string) {
+    super(StatusCode.Unauthorized, message)
+  }
+}
+
+export class UnprocessableEntityError extends ApiErrorResponse {
+  constructor(message: string, errors?: Record<string, any>) {
+    super(StatusCode.Unprocessable_Entity, message, errors)
+  }
+}
+
+export class InternalServerError extends ApiErrorResponse {
+  constructor() {
+    super(StatusCode.InternalServerError, "Internal Server Error")
+  }
+}
+
+
 class ResponseHelper {
   static success( 
     response: Response,
@@ -17,29 +48,7 @@ class ResponseHelper {
   ) {
     return this.successResponse(StatusCode.Created)(response, message, data);
   }
-
-  static unauthorized(
-    response: Response,
-    message: string,
-  ) {
-      return this.failedResponse(StatusCode.Unauthorized)(response, message);
-  }
-
-  static unprocessableEntity(
-    response: Response,
-    message: string,
-    errors?: Record<string, any>
-  ) {
-    return this.failedResponse(StatusCode.Unprocessable_Entity)(response, message, errors);
-  }
-
-  static internalServerError(
-    response: Response,
-    message: string,
-  ) {
-    return this.failedResponse(StatusCode.Unprocessable_Entity)(response, message);
-  }
-
+  
   private static successResponse(code: number) {
     return (
       response: Response,
@@ -47,16 +56,6 @@ class ResponseHelper {
       data: Record<string, any>
     ) => {
       const body = { success: true, message, data };
-      response.status(code).json(body);
-    };
-  }
-
-  private static failedResponse(code: number) {
-    return (
-      response: Response,
-      message: string,
-      errors?: Record<string, any>) => {
-      const body = { success: false, message, errors };
       response.status(code).json(body);
     };
   }

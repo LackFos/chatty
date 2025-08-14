@@ -3,6 +3,7 @@ enum StatusCode {
   Created = 201,
   Unauthorized = 401,
   Unprocessable_Entity = 422,
+  InternalServerError = 500,
 }
 
 export default StatusCode;
