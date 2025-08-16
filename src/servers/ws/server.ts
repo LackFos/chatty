@@ -1,7 +1,7 @@
 import { WebSocketServer } from 'ws';
 
+import UserModel from '@/models/user.model';
 import onMessage from '@/servers/ws/routes';
-import AppSetupError from '@/enums/app-error.enum';
 import contextRegistry from '@/servers/ws/libs/context-registry';
 
 const websocketServer = () => {
@@ -18,7 +18,13 @@ const websocketServer = () => {
         onMessage(ws, data);
       });
 
-      ws.on('close', function () {
+      ws.on('close', async function () {
+        const context = contextRegistry.get(ws);
+
+        if (context.user) {
+          await UserModel.findByIdAndUpdate(context.user._id, { isOnline: false });
+        }
+
         contextRegistry.delete(ws);
       });
     });

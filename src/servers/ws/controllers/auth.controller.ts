@@ -15,5 +15,5 @@ export const authenticate = async (ws: WebSocket, message: AuthenticateMessageIn
 
   const validatedJwt = jwtSchema.parse(decoded);
 
-  context.user = await UserModel.findOne({ _id: validatedJwt.id });
+  context.user = await UserModel.findByIdAndUpdate(validatedJwt.id, { isOnline: true }, { new: true });
 };
