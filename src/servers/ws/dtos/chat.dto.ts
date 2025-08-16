@@ -1,4 +1,4 @@
-import * as z from 'zod';
+import { z } from 'zod';
 import messageType from '@/servers/ws/enums/message.type';
 
 export interface ChatMessageInterface {

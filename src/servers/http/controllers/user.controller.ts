@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 
 import UserModel from '@/models/user.model';
-import { userCreateRequest, userCreateResponse, userLoginRequest, userLoginResponse } from '@/servers/http/dtos/user.dto';
 import ResponseHelper, { InternalServerError, UnauthorizedError } from '@/servers/http/helpers/response.helper';
+import { userCreateRequest, userCreateResponse, userLoginRequest, userLoginResponse } from '@/servers/http/dtos/user.dto';
 
 export const createUser = async (request: Request, response: Response, next: NextFunction) => {
   try {

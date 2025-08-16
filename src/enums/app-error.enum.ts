@@ -1,7 +1,7 @@
-enum AppSetupError {
+enum AppError {
   DATABASE_SETUP_ERROR = 'DATABASE_SETUP_ERROR',
   WEB_SOCKET_SERVER_SETUP_ERROR = 'WEB_SOCKET_SERVER_SETUP_ERROR',
   REST_API_SERVER_SETUP_ERROR = 'REST_API_SERVER_SETUP_ERROR',
 }
 
-export default AppSetupError;
+export default AppError;

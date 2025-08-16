@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import AppSetupError from '@/enums/setup.error';
+import AppSetupError from '@/enums/app-error.enum';
 
 const connectToDatabase = async (): Promise<void> => {
   try {

@@ -1,4 +1,4 @@
-enum StatusCode {
+enum HttpStatusCode {
   Ok = 200,
   Created = 201,
   Unauthorized = 401,
@@ -6,4 +6,4 @@ enum StatusCode {
   InternalServerError = 500,
 }
 
-export default StatusCode;
+export default HttpStatusCode;

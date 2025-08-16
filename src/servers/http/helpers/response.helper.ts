@@ -1,5 +1,5 @@
-import { Response } from "express";
-import StatusCode from "@/http/enums/http.status.code";
+import { Response } from 'express';
+import HttpStatusCode from '@/servers/http/enums/http-status-code-enum';
 
 export class ApiErrorResponse {
   code: number;
@@ -15,29 +15,29 @@ export class ApiErrorResponse {
 
 export class UnauthorizedError extends ApiErrorResponse {
   constructor(message: string) {
-    super(StatusCode.Unauthorized, message);
+    super(HttpStatusCode.Unauthorized, message);
   }
 }
 
 export class UnprocessableEntityError extends ApiErrorResponse {
   constructor(message: string, errors?: Record<string, any>) {
-    super(StatusCode.Unprocessable_Entity, message, errors);
+    super(HttpStatusCode.Unprocessable_Entity, message, errors);
   }
 }
 
 export class InternalServerError extends ApiErrorResponse {
   constructor() {
-    super(StatusCode.InternalServerError, "Internal Server Error");
+    super(HttpStatusCode.InternalServerError, 'Internal Server Error');
   }
 }
 
 class ResponseHelper {
   static success(response: Response, message: string, data: Record<string, any>) {
-    return this.successResponse(StatusCode.Ok)(response, message, data);
+    return this.successResponse(HttpStatusCode.Ok)(response, message, data);
   }
 
   static created(response: Response, message: string, data: Record<string, any>) {
-    return this.successResponse(StatusCode.Created)(response, message, data);
+    return this.successResponse(HttpStatusCode.Created)(response, message, data);
   }
 
   private static successResponse(code: number) {

@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 
 import { ApiErrorResponse } from '@/servers/http/helpers/response.helper';
 
-export function errorHandler(error: Error, request: Request, response: Response, next: NextFunction) {
+const errorMiddleware = (error: Error, request: Request, response: Response) => {
   if (error instanceof ApiErrorResponse) {
     return response.status(error.code).json({
       success: false,
@@ -10,4 +10,6 @@ export function errorHandler(error: Error, request: Request, response: Response,
       errors: error.errors,
     });
   }
-}
+};
+
+export default errorMiddleware;

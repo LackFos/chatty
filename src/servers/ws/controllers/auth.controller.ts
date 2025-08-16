@@ -1,11 +1,10 @@
-import { UserInterface } from './../../../models/user.model';
 import jwt from 'jsonwebtoken';
 import WebSocket from 'ws';
 
 import UserModel from '@/models/user.model';
 import contextRegistry from '@/servers/ws/libs/context-registry';
-import { jwtPayloadSchema } from '@/servers/ws/server';
 import { AuthenticateMessageInterface } from '@/servers/ws/dtos/chat.dto';
+import { jwtSchema } from '@/interface';
 
 export const authenticate = async (ws: WebSocket, message: AuthenticateMessageInterface) => {
   const context = contextRegistry.get(ws);
@@ -14,7 +13,7 @@ export const authenticate = async (ws: WebSocket, message: AuthenticateMessageIn
 
   if (!decoded) return ws.close();
 
-  const validatedJwt = jwtPayloadSchema.parse(decoded);
+  const validatedJwt = jwtSchema.parse(decoded);
 
   context.user = await UserModel.findOne({ _id: validatedJwt.id });
 };

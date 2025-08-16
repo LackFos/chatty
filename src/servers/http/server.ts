@@ -1,10 +1,10 @@
 import express from 'express';
 
-import AppSetupError from '@/enums/setup.error';
-import { errorHandler } from '@/middlewares/error.handler';
+import errorHandler from '@/middlewares/error.middleware';
 import { createUser, login } from '@/servers/http/controllers/user.controller';
+import AppSetupError from '@/enums/app-error.enum';
 
-const startHttpServer = async () => {
+const httpServer = async () => {
   try {
     const server = express();
     const port = process.env.REST_API_SERVER_PORT;
@@ -24,4 +24,4 @@ const startHttpServer = async () => {
   }
 };
 
-export default startHttpServer;
+export default httpServer;

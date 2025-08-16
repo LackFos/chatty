@@ -13,6 +13,10 @@ class ContextRegistry {
 
     return context;
   }
+
+  public delete(ws: WebSocket) {
+    this.contexts.delete(ws);
+  }
 }
 
 export default new ContextRegistry();

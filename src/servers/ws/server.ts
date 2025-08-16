@@ -1,16 +1,10 @@
-import * as z from 'zod';
 import { WebSocketServer } from 'ws';
 
 import onMessage from '@/servers/ws/routes';
-import AppSetupError from '@/enums/setup.error';
+import AppSetupError from '@/enums/app-error.enum';
 import contextRegistry from '@/servers/ws/libs/context-registry';
 
-export const jwtPayloadSchema = z.object({
-  id: z.string(),
-  iat: z.number().int(),
-});
-
-const startWebSocketServer = () => {
+const websocketServer = () => {
   try {
     const port = Number(process.env.WEB_SOCKET_SERVER_PORT);
 
@@ -23,12 +17,16 @@ const startWebSocketServer = () => {
       ws.on('message', async function (data) {
         onMessage(ws, data);
       });
+
+      ws.on('close', function () {
+        contextRegistry.delete(ws);
+      });
     });
 
     console.log('⚡️ WebSocket server started on port 8080');
   } catch (error) {
-    throw Error(`${AppSetupError.WEB_SOCKET_SERVER_SETUP_ERROR}: ${error}`);
+    throw error;
   }
 };
 
-export default startWebSocketServer;
+export default websocketServer;
