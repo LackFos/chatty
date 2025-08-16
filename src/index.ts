@@ -1,15 +1,16 @@
-import { configDotenv } from "dotenv";
-import connectToDatabase from "@/database";
-import startRestApiServer from "@/express.server";
-import startWebSocketServer from "@/websocket.server";
+import { configDotenv } from 'dotenv';
+
+import connectToDatabase from '@/database';
+import startHttpServer from '@/servers/http/server';
+import startWebSocketServer from '@/servers/ws/server';
 
 configDotenv();
 
 const startApp = async () => {
   try {
     await connectToDatabase();
+    startHttpServer();
     startWebSocketServer();
-    startRestApiServer();
   } catch (error) {
     console.log(`💥 ${error}`);
   }

@@ -1,17 +1,18 @@
-import express from "express";
-import AppSetupError from "@/enums/app.setup.error";
-import { errorHandler } from "@/middlewares/error.handler";
-import { createUser, login } from "@/controllers/user.controller";
+import express from 'express';
 
-const startRestApiServer = async () => {
+import AppSetupError from '@/enums/setup.error';
+import { errorHandler } from '@/middlewares/error.handler';
+import { createUser, login } from '@/servers/http/controllers/user.controller';
+
+const startHttpServer = async () => {
   try {
     const server = express();
     const port = process.env.REST_API_SERVER_PORT;
 
     server.use(express.json());
 
-    server.post("/register", createUser);
-    server.post("/login", login);
+    server.post('/register', createUser);
+    server.post('/login', login);
 
     server.use(errorHandler);
 
@@ -23,4 +24,4 @@ const startRestApiServer = async () => {
   }
 };
 
-export default startRestApiServer;
+export default startHttpServer;
