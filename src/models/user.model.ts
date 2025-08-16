@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 
 export interface UserInterface {
+  _id: mongoose.Types.ObjectId;
   email: string;
   password: string;
   isOnline: boolean;

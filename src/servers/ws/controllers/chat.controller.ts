@@ -2,14 +2,13 @@ import WebSocket from 'ws';
 
 import ChatModel from '@/models/chat.model';
 import { ChatMessageInterface } from '@/servers/ws/dtos/chat.dto';
-import contextRegistry from '@/servers/ws/libs/context-registry';
+import { userContext } from '@/servers/ws/server';
 
 export const createChat = async (ws: WebSocket, message: ChatMessageInterface) => {
-  const context = contextRegistry.get(ws);
+  const context = userContext.get(ws);
   const user = context.user;
 
-  await ChatModel.create({
-    sender: user._id,
-    text: message.text,
-  });
+  if (user) {
+    await ChatModel.create({ sender: user._id, text: message.text });
+  }
 };

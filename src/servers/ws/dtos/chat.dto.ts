@@ -20,4 +20,8 @@ export const clientMessage = z.discriminatedUnion('type', [
     type: z.literal(messageType.Authenticate),
     token: z.string(),
   }),
+  z.object({
+    type: z.literal(messageType.Subscribe),
+    topic: z.string(),
+  }),
 ]);
