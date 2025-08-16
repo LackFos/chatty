@@ -1,6 +1,6 @@
 enum messageType {
-  Chat = "Chat",
-  Authenticate = "Authenticate",
+  Chat = 'chat',
+  Authenticate = 'authenticate',
 }
 
 export default messageType;
