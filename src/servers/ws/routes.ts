@@ -33,6 +33,11 @@ const onMessage = (ws: WebSocket, data: WebSocket.RawData) => {
     if (user && message.type === messageType.Subscribe) {
       subscribeContext.subscribe(message.topic, ws);
     }
+
+    // Unsubscribe Handler
+    if (user && message.type === messageType.Unsubscribe) {
+      subscribeContext.unsubscribe(message.topic, ws);
+    }
   } catch (error) {
     throw new Error(`${error}`);
   }
