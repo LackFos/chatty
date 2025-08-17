@@ -3,6 +3,7 @@ import messageType from '@/servers/ws/enums/message.type';
 
 export interface ChatMessageInterface {
   type: messageType.Chat;
+  to: string;
   text: string;
 }
 
@@ -14,6 +15,7 @@ export interface AuthenticateMessageInterface {
 export const clientMessage = z.discriminatedUnion('type', [
   z.object({
     type: z.literal(messageType.Chat),
+    to: z.string(),
     text: z.string(),
   }),
   z.object({

@@ -20,7 +20,7 @@ const onMessage = (ws: WebSocket, data: WebSocket.RawData) => {
     }
 
     // Authentication Handler
-    if (message.type === messageType.Authenticate) {
+    if (!user && message.type === messageType.Authenticate) {
       authenticate(ws, message);
     }
 

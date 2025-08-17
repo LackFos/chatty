@@ -21,7 +21,11 @@ export const authenticate = async (ws: WebSocket, message: AuthenticateMessageIn
 
   context.user = user;
 
-  const topic = `user.${user._id}.status`;
-  subscribeContext.subscribe(topic, ws);
-  subscribeContext.publish(topic, 'true');
+  // Subscribe to current user inbox
+  const inboxTopic = `user.${user._id}.inbox`;
+  subscribeContext.subscribe(inboxTopic, ws);
+
+  // Broadcast current user status
+  const statusTopic = `user.${user._id}.status`;
+  subscribeContext.publish(statusTopic, 'true');
 };
