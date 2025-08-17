@@ -1,13 +1,13 @@
 import WebSocket, { WebSocketServer } from 'ws';
 
-import onMessage from '@/servers/ws/routes';
-import UserModel from '@/models/user.model';
+import onClose from '@/servers/ws/handlers/on-close';
+import onMessage from '@/servers/ws/handlers/on-message';
 import UserContext from '@/servers/ws/libs/user-context';
 import SubscribeContext from '@/servers/ws/libs/subscribe-context';
 import { UserContextInterface } from '@/servers/ws/interface';
 
-export const userContext = new UserContext<WebSocket, UserContextInterface>({ user: null });
 export const subscribeContext = new SubscribeContext();
+export const userContext = new UserContext<WebSocket, UserContextInterface>({ user: null });
 
 const websocketServer = () => {
   try {
@@ -16,22 +16,7 @@ const websocketServer = () => {
 
     wss.on('connection', function (ws) {
       ws.on('message', (data) => onMessage(ws, data));
-
-      ws.on('close', async function () {
-        if (userContext.has(ws)) {
-          const context = userContext.get(ws);
-
-          if (context.user) {
-            await UserModel.findByIdAndUpdate(context.user._id, { isOnline: false });
-
-            const topic = `user.${context.user._id}.status`;
-            subscribeContext.publish(topic, 'false');
-            subscribeContext.unsubscribeAll(topic);
-          }
-        }
-
-        userContext.delete(ws);
-      });
+      ws.on('close', (code, reason) => onClose(ws));
     });
 
     console.log('⚡️ WebSocket server started on port 8080');
