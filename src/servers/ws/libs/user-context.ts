@@ -1,4 +1,6 @@
-class contextRegistry<K extends object, T> {
+import WebSocket from 'ws';
+
+class UserContext<K extends WebSocket, T> {
   public contexts = new WeakMap<K, T>();
   private initialContext: T;
 
@@ -17,9 +19,13 @@ class contextRegistry<K extends object, T> {
     return context;
   }
 
-  public delete(key: K) {
+  public has(key: K): boolean {
+    return this.contexts.has(key);
+  }
+
+  public delete(key: K): void {
     this.contexts.delete(key);
   }
 }
 
-export default contextRegistry;
+export default UserContext;

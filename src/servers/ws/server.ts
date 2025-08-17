@@ -1,12 +1,13 @@
 import WebSocket, { WebSocketServer } from 'ws';
 
-import UserModel from '@/models/user.model';
 import onMessage from '@/servers/ws/routes';
-import contextRegistry from '@/servers/ws/libs/context-registry';
-import { SubscribeContext, UserContext } from '@/servers/ws/interface';
+import UserModel from '@/models/user.model';
+import UserContext from '@/servers/ws/libs/user-context';
+import SubscribeContext from '@/servers/ws/libs/subscribe-context';
+import { UserContextInterface } from '@/servers/ws/interface';
 
-export const userContext = new contextRegistry<WebSocket, UserContext>({ user: null });
-export const subscribeContext = new contextRegistry<WebSocket, SubscribeContext>({});
+export const userContext = new UserContext<WebSocket, UserContextInterface>({ user: null });
+export const subscribeContext = new SubscribeContext();
 
 const websocketServer = () => {
   try {
@@ -14,15 +15,19 @@ const websocketServer = () => {
     const wss = new WebSocketServer({ port });
 
     wss.on('connection', function (ws) {
-      ws.on('message', async function (data) {
-        onMessage(ws, data);
-      });
+      ws.on('message', (data) => onMessage(ws, data));
 
       ws.on('close', async function () {
-        const context = userContext.get(ws);
+        if (userContext.has(ws)) {
+          const context = userContext.get(ws);
 
-        if (context.user) {
-          await UserModel.findByIdAndUpdate(context.user._id, { isOnline: false });
+          if (context.user) {
+            await UserModel.findByIdAndUpdate(context.user._id, { isOnline: false });
+
+            const topic = `user.${context.user._id}.status`;
+            subscribeContext.publish(topic, 'false');
+            subscribeContext.unsubscribeAll(topic);
+          }
         }
 
         userContext.delete(ws);

@@ -2,7 +2,7 @@ import WebSocket from 'ws';
 import jwt from 'jsonwebtoken';
 
 import UserModel from '@/models/user.model';
-import { userContext } from '@/servers/ws/server';
+import { subscribeContext, userContext } from '@/servers/ws/server';
 import { AuthenticateMessageInterface } from '@/servers/ws/dtos/chat.dto';
 import { jwtSchema } from '@/interface';
 
@@ -20,4 +20,8 @@ export const authenticate = async (ws: WebSocket, message: AuthenticateMessageIn
   if (!user) return ws.close();
 
   context.user = user;
+
+  const topic = `user.${user._id}.status`;
+  subscribeContext.subscribe(topic, ws);
+  subscribeContext.publish(topic, 'true');
 };

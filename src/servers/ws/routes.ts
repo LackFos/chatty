@@ -31,9 +31,7 @@ const onMessage = (ws: WebSocket, data: WebSocket.RawData) => {
 
     // Subscribe Handler
     if (user && message.type === messageType.Subscribe) {
-      const context = subscribeContext.get(ws);
-      const existingTopic = context[message.topic] ?? [];
-      context[message.topic] = [...existingTopic, ws];
+      subscribeContext.subscribe(message.topic, ws);
     }
   } catch (error) {
     throw new Error(`${error}`);
