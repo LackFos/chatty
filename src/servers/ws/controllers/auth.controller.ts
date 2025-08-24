@@ -3,15 +3,15 @@ import jwt from 'jsonwebtoken';
 
 import UserModel from '@/models/user.model';
 import { subscribeContext, userContext } from '@/servers/ws/server';
-import { AuthenticateMessageInterface } from '@/servers/ws/dtos/chat.dto';
+import { MessageAuthenticateTypeInterface } from '@/servers/ws/dtos/message.dto';
 import { jwtSchema } from '@/interface';
 
-export const authenticate = async (ws: WebSocket, message: AuthenticateMessageInterface) => {
+export const authenticate = async (ws: WebSocket, message: MessageAuthenticateTypeInterface) => {
   const context = userContext.get(ws);
 
   const decoded = jwt.decode(message.token);
 
-  if (!decoded) return ws.close();
+  if (!decoded) return ws.send(JSON.stringify({ type: 'error', message: 'Invalid token' }));
 
   const validatedJwt = jwtSchema.parse(decoded);
 
