@@ -3,9 +3,9 @@ import WebSocket from 'ws';
 import ChatModel from '@/models/chat.model';
 import UserModel from '@/models/user.model';
 import { subscribeContext, userContext } from '@/servers/ws/server';
-import { ChatMessageInterface } from '@/servers/ws/dtos/chat.dto';
+import { MessageChatTypeInterface } from '@/servers/ws/dtos/message.dto';
 
-export const createChat = async (ws: WebSocket, message: ChatMessageInterface) => {
+export const createChat = async (ws: WebSocket, message: MessageChatTypeInterface) => {
   const context = userContext.get(ws);
   const user = context.user!;
 

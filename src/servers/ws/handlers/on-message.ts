@@ -3,7 +3,7 @@ import WebSocket from 'ws';
 import { subscribeContext, userContext } from '@/servers/ws/server';
 import { createChat } from '@/servers/ws/controllers/chat.controller';
 import { authenticate } from '@/servers/ws/controllers/auth.controller';
-import { clientMessage } from '@/servers/ws/dtos/chat.dto';
+import { WsMessage } from '@/servers/ws/dtos/message.dto';
 import messageType from '@/servers/ws/enums/message.type';
 
 const onMessage = (ws: WebSocket, data: WebSocket.RawData) => {
@@ -12,7 +12,7 @@ const onMessage = (ws: WebSocket, data: WebSocket.RawData) => {
     const user = context.user;
 
     const rawData = data.toString();
-    const message = clientMessage.parse(JSON.parse(rawData));
+    const message = WsMessage.parse(JSON.parse(rawData));
 
     // Terminate Connection if user is not authenticated
     if (!user && (message.type !== messageType.Authenticate || !message.token)) {

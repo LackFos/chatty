@@ -44,7 +44,7 @@ export const login = async (request: Request, response: Response, next: NextFunc
     const credentials = userLoginRequest.parse(request.body);
 
     // Get matching user by email
-    const matchedUser = await UserModel.findOne({ email: credentials.email });
+    const matchedUser = await UserModel.findOne({ email: credentials.email }).select('+password');
 
     if (!matchedUser) {
       return next(new UnauthorizedError('Invalid login credentials'));
