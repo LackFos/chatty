@@ -10,12 +10,10 @@ export interface UserInterface {
 const schema = new Schema<UserInterface>(
   {
     email: { type: String, required: true },
-    password: { type: String, required: true, select: true },
+    password: { type: String, required: true, select: false },
     isOnline: { type: Boolean, require: true },
   },
-  {
-    toJSON: { virtuals: true },
-  },
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 
 const UserModel = mongoose.model<UserInterface>('User', schema);

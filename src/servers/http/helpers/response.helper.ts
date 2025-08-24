@@ -19,6 +19,12 @@ export class UnauthorizedError extends ApiErrorResponse {
   }
 }
 
+export class BadRequestError extends ApiErrorResponse {
+  constructor(message: string, errors?: Record<string, any>) {
+    super(HttpStatusCode.BadRequest, message, errors);
+  }
+}
+
 export class UnprocessableEntityError extends ApiErrorResponse {
   constructor(message: string, errors?: Record<string, any>) {
     super(HttpStatusCode.Unprocessable_Entity, message, errors);
