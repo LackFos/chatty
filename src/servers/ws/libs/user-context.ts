@@ -12,8 +12,8 @@ class UserContext<K extends WebSocket, T> {
     let context = this.contexts.get(key);
 
     if (!context) {
-      context = this.initialContext;
-      this.contexts.set(key, this.initialContext);
+      context = { ...this.initialContext };
+      this.contexts.set(key, context);
     }
 
     return context;
