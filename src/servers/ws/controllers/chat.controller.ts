@@ -15,9 +15,9 @@ export const createChat = async (ws: WebSocket, message: MessageChatTypeInterfac
     return ws.send(JSON.stringify({ type: 'error', message: 'User not found' }));
   }
 
-  await ChatModel.create({ sender: user._id, receiver: user._id, text: message.text });
+  const chat = await ChatModel.create({ sender: user._id, receiver: user._id, text: message.text });
 
   // Send message to the target user
   const inboxTopic = `user.${receiver._id}.inbox`;
-  subscribeContext.publish(inboxTopic, message.text);
+  subscribeContext.publish(inboxTopic, chat);
 };
