@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import ChatModel from '@/models/chat.model';
 import { getAllChatsResponse } from '@/servers/http/dtos/chat.dto';
-import ResponseHelper, { BadRequestError } from '../helpers/response.helper';
+import ResponseHelper from '@/servers/http/helpers/response.helper';
 
 export const getAllChats = async (request: Request, response: Response, next: NextFunction) => {
   try {

@@ -29,7 +29,7 @@ class SubscribeContext {
     this.contexts.delete(topic);
   }
 
-  public publish(topic: Topic, message: string): void {
+  public publish(topic: Topic, message: any): void {
     const subscribers = this.contexts.get(topic);
 
     if (subscribers) {
