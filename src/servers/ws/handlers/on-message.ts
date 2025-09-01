@@ -16,7 +16,8 @@ const onMessage = (ws: WebSocket, data: WebSocket.RawData) => {
 
     // Terminate Connection if user is not authenticated
     if (!user && (message.type !== messageType.Authenticate || !message.token)) {
-      return ws.close();
+      ws.send(JSON.stringify({ type: 'error', message: 'Please login first' }));
+      return;
     }
 
     // Authentication Handler
